@@ -1,0 +1,146 @@
+art_profiler_illumina,Use  the  art  profiler  to  create  a  base  quality  score  profile  for  Illumina  read  data  from  a  fastq  file.,David  Laehnemann  Victoria  Sack,0,0,0,0,0,0
+bcftools  call,Call  variants  with  bcftools.,Johannes  Köster,0,0,0,0,0,0
+bcftools  concat,Concatenate  vcf/bcf  files  with  bcftools.,Johannes  Köster,0,0,0,0,0,0
+bcftools  merge,Merge  vcf/bcf  files  with  bcftools.,Patrik  Smeds,0,0,0,0,0,0
+bcftools  view,View  vcf/bcf  file  in  a  different  format.,Johannes  Köster,0,0,0,0,0,0
+bowtie2,Map  reads  with  bowtie2.,Johannes  Köster,0,0,0,0,0,0
+busco,Assess  assembly  and  annotation  completeness  with  BUSCO   
+,Tessa  Pierce,1,0,1,0,0,0
+bwa  aln,Map  reads  with  bwa  aln.,Julian  de  Ruiter,0,0,0,0,0,0
+bwa  index,Creates  a  BWA  index.,Patrik  Smeds,0,0,0,0,0,0
+bwa  mem,Map  reads  using  bwa  mem ,  with  optional  sorting  using  samtools  or  picard.,Johannes  Köster  Julian  de  Ruiter,0,0,0,0,0,0
+bwa  sampe,Map  paired-end  reads  with  bwa  sampe.,Julian  de  Ruiter,0,0,0,0,0,0
+bwa  samse,Map  single-end  reads  with  bwa  samse.,Julian  de  Ruiter,0,0,0,0,0,0
+cutadapt-pe,Trim  paired-end  reads  using  cutadapt. 
+,Julian  de  Ruiter,1,0,2,0,0,0
+cutadapt-se,Trim  single-end  reads  using  cutadapt. 
+,Julian  de  Ruiter,1,0,2,0,0,0
+delly,Call  variants  with  delly.,Johannes  Köster,0,0,0,0,0,0
+epic,Find  broad  enriched  domains  in  ChIP-Seq  data  with  epic 
+,Endre  Bakken  Stovner,2,2,3,3,0,0
+fastq_screen,`fastq_screen  <http://www.bioinformatics.babraham.ac.uk/projects/fastq_screen>`_ 
+screens  a  library  of  sequences  in  FASTQ  format  against  a  set  of  sequence 
+databases  so  you  can  see  if  the  composition  of  the  library  matches  with  what 
+you  expect. 
+ 
+This  wrapper  allows  the  configuration  to  be  passed  as  a  filename  or  as 
+a  dictionary  in  the  rule's    `params.fastq_screen_config`  of  the  rule.  So  the 
+following  configuration  file:: 
+ 
+    DATABASE	ecoli	/data/Escherichia_coli/Bowtie2Index/genome	BOWTIE2 
+    DATABASE	ecoli	/data/Escherichia_coli/Bowtie2Index/genome	BOWTIE 
+    DATABASE	hg19	/data/hg19/Bowtie2Index/genome	BOWTIE2 
+    DATABASE	mm10	/data/mm10/Bowtie2Index/genome	BOWTIE2 
+    BOWTIE	/path/to/bowtie 
+    BOWTIE2	/path/to/bowtie2 
+ 
+becomes:: 
+ 
+    fastq_screen_config  =  { 
+      'database':  { 
+          'ecoli':  { 
+              'bowtie2':  '/data/Escherichia_coli/Bowtie2Index/genome' , 
+              'bowtie':  '/data/Escherichia_coli/BowtieIndex/genome'} , 
+          'hg19':  { 
+              'bowtie2':  '/data/hg19/Bowtie2Index/genome'} , 
+          'mm10':  { 
+              'bowtie2':  '/data/mm10/Bowtie2Index/genome'} 
+      } , 
+      'aligner_paths':  {'bowtie':  'bowtie' ,  'bowtie2':  'bowtie2'} 
+    } 
+ 
+By  default ,  the  wrapper  will  use  bowtie2  as  the  aligner  and  a  subset  of  100000 
+reads.    These  can  be  overridden  using  ``params.aligner``  and  ``params.subset`` 
+respectively.  Furthermore ,  `params.extra`  can  be  used  to  pass  additional 
+arguments  verbatim  to  ``fastq_screen`` ,  for  example  ``extra= "--illumina1_3 "``  or 
+``extra= "--bowtie2  '--trim5=8' "``. 
+,Ryan  Dale,1,0,2,2,0,0
+fastqc,Generate  fastq  qc  statistics  using  fastqc. 
+,Julian  de  Ruiter,1,0,2,0,0,0
+fgbio  AnnotateBamWithUmis,Annotates  existing  BAM  files  with  UMIs  (Unique  Molecular  Indices ,  aka  Molecular  IDs ,  Molecular  barcodes)  from  a  separate  FASTQ  file.,Patrik  Smeds,0,0,0,0,0,0
+fgbio  CallMolecularConsensusReads,Calls  consensus  sequences  from  reads  with  the  same  unique  molecular  tag.,Patrik  Smeds,0,0,0,0,0,0
+fgbio  GroupReadsByUmi,Groups  reads  together  that  appear  to  have  come  from  the  same  original  molecule.,Patrik  Smeds,0,0,0,0,0,0
+fgbio  SetMateInformation,Adds  and/or  fixes  mate  information  on  paired-end  reads.  Sets  the  MQ  (mate  mapping  quality) ,  MC  (mate  cigar  string) ,  ensures  all  mate-related  flag  fields  are  set  correctly ,  and  that  the  mate  reference  and  mate  start  position  are  correct.,Patrik  Smeds,0,0,0,0,0,0
+freebayes,Call  small  genomic  variants  with  freebayes.,Johannes  Köster,0,0,0,0,0,0
+gatk  BaseRecalibrator,Run  gatk  BaseRecalibrator  and  ApplyBQSR  in  one  step. 
+,Johannes  Köster  Jake  VanCampen,1,0,1,0,0,0
+gatk  CombineGVCFs,Run  gatk  CombineGVCFs. 
+,Johannes  Köster  Jake  VanCampen,1,0,1,0,0,0
+gatk  GenotypeGVCFs,Run  gatk  GenotypeGVCFs. 
+,Johannes  Köster  Jake  VanCampen,1,0,1,0,0,0
+gatk  HaplotypeCaller,Run  gatk  HaplotypeCaller. 
+,Johannes  Köster  Jake  VanCampen,1,0,1,0,0,0
+gatk  SelectVariants,Run  gatk  SelectVariants. 
+,Johannes  Köster  Jake  VanCampen,2,0,1,0,0,0
+gatk  VariantFiltration,Run  gatk  VariantFiltration. 
+,Johannes  Köster  Jake  VanCampen,2,0,1,0,0,0
+gatk  VariantRecalibrator,Run  gatk  VariantRecalibrator. 
+,Johannes  Köster  Jake  VanCampen,1,0,2,0,0,0
+jannovar,Annotate  predicted  effect  of  nucleotide  changes  with  Jannovar,Bradford  Powell,0,0,0,0,0,0
+lofreq  call,simply  call  variants,Patrik  Smeds,0,0,0,0,0,0
+minimap2,A  versatile  pairwise  aligner  for  genomic  and  spliced  nucleotide  sequences  https://lh3.github.io/minimap2,Tom  Poorten,0,0,0,0,0,0
+minimap2  index,creates  a  minimap2  index,Tom  Poorten,0,0,0,0,0,0
+multiqc,Generate  qc  report  using  multiqc. 
+,Julian  de  Ruiter,1,0,1,0,0,0
+ngs-disambiguate,Disambiguation  algorithm  for  reads  aligned  to  two  species  (e.g.  human 
+and  mouse  genomes)  from  Tophat ,  Hisat2 ,  STAR  or  BWA  mem. 
+,Julian  de  Ruiter,2,0,4,0,0,0
+picard  AddOrReplaceReadGroups,Add  or  replace  read  groups  with  picard  tools.,Johannes  Köster,1,0,1,0,0,0
+picard  CollectAlignmentSummaryMetrics,Collect  metrics  on  aligned  reads  with  picard  tools. 
+,Johannes  Köster,0,0,0,0,0,0
+picard  CollectHSMetrics,Collects  hybrid-selection  (HS)  metrics  for  a  SAM  or  BAM  file  using  picard. 
+,Julian  de  Ruiter,1,0,1,0,0,0
+picard  CollectInsertSizeMetrics,Collect  metrics  on  insert  size  of  paired  end  reads  with  picard  tools. 
+,Johannes  Köster,1,0,2,2,0,0
+picard  CreateSequenceDictionary,Create  a  .dict  file  for  a  given  FASTA  file 
+,Johannes  Köster,1,0,1,0,0,0
+picard  MarkDuplicates,Mark  PCR  and  optical  duplicates  with  picard  tools. 
+,Johannes  Köster,1,0,1,0,0,0
+picard  MergeSamFiles,Merge  sam/bam  files  using  picard  tools. 
+,Julian  de  Ruiter,1,0,1,0,0,0
+picard  MergeVcfs,Merge  vcf  files  using  picard  tools. 
+,Johannes  Köster,1,0,1,0,0,0
+picard  RevertSam,Reverts  SAM  or  BAM  files  to  a  previous  state.  . 
+,Patrik  Smeds,1,0,1,0,0,0
+picard  SomToFastq,Converts  a  SAM  or  BAM  file  to  FASTQ. 
+,Patrik  Smeds,1,0,1,0,0,0
+picard  SortSam,Sort  sam/bam  files  using  picard  tools. 
+,Julian  de  Ruiter,1,0,1,0,0,0
+pindel,Call  variants  with  pindel.,Johannes  Köster,0,0,0,0,0,0
+pindel2vcf,Convert  pindel  output  to  vcf.,Johannes  Köster,0,0,0,0,0,0
+RUBIC,`RUBIC  <http://ccb.nki.nl/software/rubic/doc/>`_ 
+detects  recurrent  copy  number  alterations  using  copy  number  breaks. 
+,Beatrice  F.  Tan,2,0,3,0,0,0
+salmon_index,Index  a  transcriptome  assembly  with  salmon   
+,Tessa  Pierce,1,0,1,0,0,0
+salmon_quant,Quantify  transcripts  with  salmon   
+,Tessa  Pierce,1,0,1,0,0,0
+sambamba  sort,Sort  bam  file  with  sambamba,Johannes  Köster,1,0,1,0,0,0
+samtools  bam2fq  interleaved,Convert  a  bam  file  back  to  unaligned  reads  in  a  single  fastq  file  with  samtools.  For  paired  end  reads ,  this  results  in  an  unsorted  interleaved  file.,David  Laehnemann  Victoria  Sack,0,0,0,0,0,0
+samtools  bam2fq  separate,Convert  a  bam  file  with  paired  end  reads  back  to  unaligned  reads  in  a  two  separate  fastq  files  with  samtools.  Reads  that  are  not  properly  paired  are  discarded  (READ_OTHER  and  singleton  reads  in  samtools  bam2fq  documentation) ,  as  are  secondary  (0x100)  and  supplementary  reads  (0x800).,David  Laehnemann  Victoria  Sack,0,0,0,0,0,0
+samtools  flagstat,Use  samtools  to  create  a  flagstat  file  from  a  bam  or  sam  file.,Christopher  Preusch,1,0,1,0,0,0
+samtools  index,Index  bam  file  with  samtools.,Johannes  Köster,1,0,1,0,0,0
+samtools  merge,Merge  two  bam  files  with  samtools.,Johannes  Köster,1,0,1,0,0,0
+samtools  sort,Sort  bam  file  with  samtools.,Johannes  Köster,0,0,0,0,0,0
+samtools  stats,Generate  stats  using  samtools.,Julian  de  Ruiter,0,0,0,0,0,0
+samtools  view,Convert  or  filter  SAM/BAM.,Johannes  Köster,0,0,0,0,0,0
+sickle  pe,Trim  paired-end  reads  with  sickle.,Wibowo  Arindrarto,0,0,0,0,0,0
+sickle  se,Trim  single-end  reads  with  sickle.,Wibowo  Arindrarto,0,0,0,0,0,0
+snpeff,Annotate  predicted  effect  of  nucleotide  changes  with  SnpEff,Bradford  Powell,0,0,0,0,0,0
+sourmash_compute,Build  a  MinHash  signature  for  a  transcriptome ,  genome ,  or  reads   
+,Lisa  K.  Johnson,1,0,1,0,0,0
+star,Map  reads  with  STAR.,Johannes  Köster,0,0,0,0,0,0
+trim_galore-pe,Trim  paired-end  reads  using  trim_galore. 
+,Kerrin  Mendler,1,0,2,0,0,0
+trim_galore-se,Trim  unpaired  reads  using  trim_galore. 
+,Kerrin  Mendler,1,0,2,0,0,0
+trimmomatic  pe,Trim  paired-end  reads  with  trimmomatic.  (De)compress  with  pigz.,Johannes  Köster  Jorge  Langa,0,0,0,0,0,0
+trimmomatic  se,Trim  single-end  reads  with  trimmomatic.  (De)compress  with  pigz.,Johannes  Köster  Jorge  Langa,0,0,0,0,0,0
+trinity,Generate  transcriptome  assembly  with  Trinity 
+,Tessa  Pierce,1,0,1,0,0,0
+vcftools  filter,Filter  vcf  files  using  vcftools,Patrik  Smeds,0,0,0,0,0,0
+hisat2,Map  reads  with  hisat2. 
+,Wibowo  Arindrarto,1,1,1,0,0,0
+compress  vcf,Compress  and  index  vcf  file  with  bgzip  and  tabix.,Johannes  Köster,0,0,0,0,0,0
+uncompress  vcf,Uncompress  vcf  file  with  bgzip.,Johannes  Köster,0,0,0,0,0,0
+cairosvg,Convert  SVG  files  with  cairosvg.,Johannes  Köster,0,0,0,0,0,0
